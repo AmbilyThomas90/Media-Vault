@@ -6,19 +6,42 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const app = express();
-app.use(cors({ origin: "http://media-vault-murex.vercel.app"}));
+
+//  CORS Configuration
+const allowedOrigins = [
+  "http://localhost:5173", // for local development (Vite)
+  "https://media-vault-murex.vercel.app" // production frontend
+];
+
 app.use(
   cors({
-    origin: "https://media-vault-murex.vercel.app",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
+
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI)
-.then(() => console.log("MongoDB Connected"))
-.catch(err => console.log(err));
+// MongoDB Connection
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => {
+    console.error("MongoDB connection error:", err);
+    process.exit(1);
+  });
 
+//  Routes
 app.use("/api/media", require("./routes/mediaRoutes"));
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+//  Use Render PORT
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -4,7 +4,7 @@ import UploadMedia from "./components/UploadMedia";
 import MediaGallery from "./components/MediaGallery";
 import "./App.css";
 
-const API ="https://media-vault-s8ds.onrender.com";
+const API ="https://media-vault-s8ds.onrender.com/api/media";
 // "http://localhost:5000/api/media";
 
 

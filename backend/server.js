@@ -6,7 +6,13 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: "http://media-vault-murex.vercel.app"}));
+app.use(
+  cors({
+    origin: "https://media-vault-murex.vercel.app",
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URI)

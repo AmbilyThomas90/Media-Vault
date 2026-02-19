@@ -4,7 +4,9 @@ import UploadMedia from "./components/UploadMedia";
 import MediaGallery from "./components/MediaGallery";
 import "./App.css";
 
-const API = "http://localhost:5000/api/media";
+const API ="https://media-vault-s8ds.onrender.com";
+// "http://localhost:5000/api/media";
+
 
 function App() {
   const [media, setMedia] = useState([]);
